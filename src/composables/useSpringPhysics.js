@@ -1,0 +1,2 @@
+import { ref, onUnmounted } from 'vue'
+export function useSpringPhysics(initial=0){const value=ref(initial);let velocity=0,target=initial,frame,last;function tick(t){const dt=Math.min((t-(last||t))/1000,.032);last=t;velocity+=(-320*(value.value-target)-25*velocity)/.8*dt;value.value+=velocity*dt;if(Math.abs(velocity)>.001||Math.abs(value.value-target)>.001)frame=requestAnimationFrame(tick);else {value.value=target;frame=null;last=null}}function set(v){target=v;if(!frame)frame=requestAnimationFrame(tick)}onUnmounted(()=>cancelAnimationFrame(frame));return {value,set}}
